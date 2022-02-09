@@ -1,0 +1,273 @@
+@use "sass:math";
+$white:#e2fcef;
+$shade1:#9b287b;
+$shade2:#5c164e;
+$shade3:#402039;
+$dark:#170f11;
+
+$shape-color:$shade3;
+$body-bg:$shade1;
+$navigation-height:50px;
+$navigation-color:$shade2;
+@font-face {
+  font-family:neon ;
+  src: url('./fonts/LasEnter.ttf');
+}
+
+@font-face {
+  font-family:Makasih;
+  src: url('./fonts/Makasih.ttf');
+}
+@mixin neon-text ($font,$color1,$color2){
+  font-family: neon;
+  letter-spacing:1px;
+  font-size: $font;
+  text-shadow: 
+  0 0 math.div($font,4) $color1,
+  0 0 math.div($font,4)+3 $color1,
+  0 0 math.div($font,2) $color1,
+  0 0 $font $color2,
+  0 0 $font*2 $color2,
+  0 0 $font*4 + 3 $color2,
+}
+@mixin center-item {
+  position:relative;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+body{
+  background-color:$body-bg;
+  margin: 0;
+  font-family:Makasih, Verdana, Geneva, Tahoma, sans-serif ;
+}
+.all-shapes{
+  z-index: -1;
+  .circle{
+    $size:15px;
+    position: absolute;
+    background-color: $shape-color;
+    border: 1px solid $shape-color;
+    border-radius: 50%;
+    width:$size;
+    height:$size;
+    z-index: -2;
+  }
+  .l-shape{
+      $size: 30px;
+      width: math.div($size,2);
+      height: $size;
+      background-color: $shape-color;
+      display:block;
+      position: absolute;
+      z-index: inherit;
+      border-radius: 2px;
+
+      &::before{
+        content:" ";
+        position:relative;
+        width: $size;
+        height: math.div($size,2);
+        top: math.div($size,2);
+        background-color: $shape-color;
+        display: block;
+        border-radius: 2px;
+
+      }
+    .shadow{
+      $size: 30px;
+      width: math.div($size,2);
+      height: $size;
+      background-color: transparent;
+      border:1px solid $white;
+      display:block;
+      position: relative;
+      right: 30%;
+      bottom: 40%;
+      z-index: -1;
+      border-right: none;
+      border-radius: 0 2px 0 0;
+
+      &::before{
+        content:" ";
+        position:relative;
+        width: math.div($size,2)-1;
+        height: math.div($size,2)-1;
+        top: math.div($size,2);
+        left:math.div($size,2);
+        border:1px solid $white;
+        border-left: none;
+        background-color: transparent;
+        display: block;
+        border-radius: 0 0 2px 0;
+
+      }
+    }
+  }
+  .t-shape{
+    $size: 30px;
+    width: math.div($size,2);
+    height: $size;
+    background-color: $shape-color;
+    display:block;
+    position: absolute;
+    z-index: inherit;
+    border-radius: 15px;
+    &::before{
+      content:" ";
+      border-radius: 15px;
+
+      position:relative;
+      width: $size;
+      height: math.div($size,2);
+      left: math.div($size,2);
+      background-color: $shape-color;
+      display: block;
+    }
+  }
+}
+.burger{
+  left: 5px;
+  width:32px;
+  height:32px;
+  top: 15px;
+  position: absolute;
+  cursor: pointer;
+  z-index: 5;
+  padding:0 5px;
+} 
+.navigation{
+  position: fixed;
+  top:0;
+  width: 100vw;
+  height:  $navigation-height;
+  background-color:$navigation-color;
+  z-index: 10;
+  .menu{
+    color: $white;
+    text-align: center;
+    span{
+      margin-right: 5px;
+    }
+    .neon-title{
+      $neon-title-size: 40px ;
+      font-weight: 500;
+      line-height:$navigation-height;
+      cursor: pointer;
+      @include neon-text($neon-title-size,rgb(226, 208, 208),$shape-color);
+    }
+    .menu-bar{
+      $deg:130deg;
+      width: 300px;
+      height: 100vh;
+      position: fixed;
+      left:0;
+      background-size: 400% 400%;
+
+      top:0;
+      background:linear-gradient(-45deg,$navigation-color,#5ac142);
+
+      // .inner{
+      //   width: 100%;
+      //   height:100%;
+      // }
+      animation: gradient 5s ease infinite;
+      -moz-animation: gradient 5s ease infinite;
+      -webkit-animation: gradient 5s ease infinite;
+
+
+      @-webkit-keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      @-moz-keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      span{
+        font-size:30px;
+        display:block;
+        color: $white;
+        font-weight: 400;
+        margin:30% 0;
+        text-align: center;
+        cursor: pointer;
+        &:hover,.active{@include neon-text(30px,rgb(226, 208, 208),$shape-color);}
+      }
+    }
+  }
+}
+.hero{
+  height:100vh;
+  width:100vw;
+  margin:0;
+  .hero-text{
+    z-index: 2;
+    width:300px;
+    color: $white;
+    text-transform: capitalize;
+    padding-top: 100px; 
+    padding-left: 40%;
+    @include neon-text(42px,$white,$shape-color)
+  }
+}
+
+.pageSlider{
+  width:100vw;
+  height:100vh;
+  .div-space{
+    border:1px solid $white;
+    border-radius:10px;
+    padding:9px;
+    width:50%;
+    height:50vh;
+    display:block;
+    font-size:40px;
+    @include center-item;
+    .text{
+      text-transform:capitalize;
+      text-align: center;
+      @include center-item;
+      font-size:4rem;
+    }
+    // &::before{
+    //   content:'';
+    //   position:relative;
+    //   display:block;
+    //   top:0;
+    //   left:0;
+    //   width:100vw;
+    //   height:100vh;
+    //   background:$white;
+    // }
+  }
+}
