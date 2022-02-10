@@ -18,16 +18,31 @@ export default function Home() {
   const randomNumber=(max,min,unit)=>{
     return (typeof(unit) == 'String') ? Math.floor(Math.random()*(max - min) + min )+''+unit : Number(Math.floor(Math.random()*(max - min) + min )) 
   }
+  const fadeIn = useSpring({ to: { opacity: 1 }, from: { opacity: 0 } })
+  const menuIdleAnimation = useSpring({ 
+    config:{duration:15000,...config.gentle},
+    from:{backgroundPosition:"86% 0%"},
+    to:{backgroundPosition:"17% 100%"}
+      // backgroundPosition.to({
+      //   range: [0,  0.5,  1],
+      //   output: ['0% 50%','100% 50%','0% 50%'],
+      // }) 
+  })
+  const zoomIn = useSpring({ 
+    duration:1000,
+    delay:1000,
+    to: { 
+      height: "80%",
+      width:"80vw",
+    }, 
+    from:{
+      height: "50%",
+      width:"50vw",
+    }
+  })
+
   const NavigationBar = ()=>{
-    const menuIdleAnimation = useSpring({ 
-      config:{duration:15000,...config.gentle},
-      from:{backgroundPosition:"86% 0%"},
-      to:{backgroundPosition:"17% 100%"}
-        // backgroundPosition.to({
-        //   range: [0,  0.5,  1],
-        //   output: ['0% 50%','100% 50%','0% 50%'],
-        // }) 
-    })
+    
     return (
       <nav className="navigation">
         <span onClick={()=>setShowMenu(!showMenu)} className="burger">
@@ -104,7 +119,6 @@ export default function Home() {
     )
   }
   const MainPage = ()=>{
-    const fadeIn = useSpring({ to: { opacity: 1 }, from: { opacity: 0 } })
     const getBGStyle = (color,image)=>{
       return {
         color:color,
@@ -136,26 +150,13 @@ export default function Home() {
         style={{height:'100vh',width:'100vw'}}
         pagination = {{dynamicBullets:true}}
       >
-        {slideInfo.map(val=>{
+        {slideInfo.map((val,i)=>{
           const s = val.style  
-          const zoomIn = useSpring({ 
-            duration:1000,
-            delay:1000,
-            to: { 
-              height: "80%",
-              width:"80vw",
-              ...s
-            }, 
-            from:{
-              height: "50%",
-              width:"50vw",
-              ...s
-            }
-          })
+        
           return(
-          <SwiperSlide>
+          <SwiperSlide key={i}>
             {({isActive})=>(
-            <animated.div className="div-space" style={isActive ? zoomIn : s}>
+            <animated.div className="div-space" style={isActive ? {zoomIn, ...s} : s}>
               <animated.div className="text" style={fadeIn}>{val.text}</animated.div>
             </animated.div>    
             )}
